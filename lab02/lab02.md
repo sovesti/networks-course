@@ -56,13 +56,42 @@
 
 Вы можете положить код сервиса в отдельную директорию рядом с этим документом.
 
+---
+
+Код сервера лежит в папке products. Для запуска необходим [cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html):
+
+```
+cd products
+cargo run
+```
+
 ### Задание Б (3 балла)
 Продемонстрируйте работоспособность сервиса с помощью программы Postman
 (https://www.postman.com/downloads) и приложите соответствующие скрины, на которых указаны
 запросы и ответы со стороны сервиса для **всех** его операций.
 
 #### Демонстрация работы
-todo
+
+##### Добавление продукта
+
+<img width="1671" height="1504" alt="image" src="https://github.com/user-attachments/assets/0d15a71b-eae4-421a-a178-8501ef0eaeef" />
+<img width="1703" height="1305" alt="image" src="https://github.com/user-attachments/assets/7081596a-1227-4871-8e1b-bd1e2ae8719a" />
+
+##### Получение продукта по ID
+
+<img width="1681" height="1285" alt="image" src="https://github.com/user-attachments/assets/6bb87c31-fc86-4726-a937-6a764f70383e" />
+
+##### Обновление существующего продукта
+
+<img width="1647" height="1325" alt="image" src="https://github.com/user-attachments/assets/5695e46c-7047-44b8-8009-bf27a01fdb51" />
+
+##### Удаление продукта по ID
+
+<img width="1678" height="1331" alt="image" src="https://github.com/user-attachments/assets/0448a803-66bf-458f-a78d-158523b97272" />
+
+##### Получение списка продуктов
+
+<img width="1668" height="1312" alt="image" src="https://github.com/user-attachments/assets/a61f7282-d774-4523-aa89-e9c049271315" />
 
 ### Задание В (4 балла)
 Пусть ваш продукт также имеет иконку (небольшую картинку). Формат иконки (картинки) может
@@ -84,7 +113,21 @@ todo
 ```
 
 #### Демонстрация работы
-todo
+
+##### Поле icon у продуктов
+<img width="1675" height="1555" alt="image" src="https://github.com/user-attachments/assets/320d6503-525a-4643-add1-95beae3a00ec" />
+
+##### Загрузка иконки
+<img width="1723" height="1256" alt="image" src="https://github.com/user-attachments/assets/8870efa5-317c-49d2-8035-31f7a2c0f340" />
+
+##### Получение иконки
+<img width="1861" height="1556" alt="image" src="https://github.com/user-attachments/assets/f5af344f-6093-48f0-8b04-13a82a260a7b" />
+
+##### Обновление иконки
+<img width="1860" height="1135" alt="image" src="https://github.com/user-attachments/assets/61b268e2-ed71-478d-90f0-608379c6c2e3" />
+<img width="1858" height="1545" alt="image" src="https://github.com/user-attachments/assets/1bd4475c-399f-447f-9660-af7e28445f49" />
+<img width="1890" height="1536" alt="image" src="https://github.com/user-attachments/assets/d89c7c10-2ba2-4433-b540-22b93aadaac8" />
+
 
 ---
 
