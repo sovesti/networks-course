@@ -54,7 +54,7 @@ fn _slow_send_file(output: &mut impl Write, mut file: File) -> anyhow::Result<us
     let mut total = 0;
     let mut buf = [0; 8];
     loop {
-        if let Err(_) = file.read_exact(&mut buf) {
+        if file.read_exact(&mut buf).is_err() {
             break;
         }
         total += buf.len();

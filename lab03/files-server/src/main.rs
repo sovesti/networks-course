@@ -1,4 +1,4 @@
-use std::{env::args, u16};
+use std::env::args;
 
 use crate::server::Server;
 

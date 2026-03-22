@@ -16,7 +16,7 @@ impl Server {
         let listener = TcpListener::bind(addr).unwrap();
         log::info!("Listening on http://{}", addr);
         Self {
-            listener: listener,
+            listener,
             threads: Arc::new(Pool::new(concurrency)),
         }
     }

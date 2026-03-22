@@ -52,7 +52,7 @@ fn send(request: Request, server: &mut TcpStream) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn receive(server: &mut TcpStream, to: &mut impl Write) -> Result<(), anyhow::Error> {
+fn receive(server: &mut TcpStream, to: &mut impl Write) -> anyhow::Result<()> {
     let mut buf: Vec<u8> = vec![];
     let mut reader = BufReader::new(server.try_clone()?);
     while buf.len() != [b'\r', b'\n'].len() {
