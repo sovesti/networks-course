@@ -89,7 +89,7 @@ fn email(config: &Config) -> anyhow::Result<Message> {
 }
 
 fn main() -> anyhow::Result<()> {
-    let config = toml::from_str(include_str!("../config.toml"))?;
+    let config = toml::from_str(&fs::read_to_string("config.toml")?)?;
     transport(&config).send(&email(&config)?)?;
     Ok(())
 }
