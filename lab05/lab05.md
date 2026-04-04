@@ -14,7 +14,40 @@
 Приложите скриншоты полученных сообщений (для обоих форматов).
 
 #### Демонстрация работы
-todo
+Клиент написан на Rust (2024 Edition). Чтобы его собирать, нужен [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html). Запуск клиента:
+
+```
+$ cd lettre-client
+$ cargo run -- txt vasek.fedorov@yandex.ru "Very important" body.txt # после -- идут аргументы, передаваемые клиенту
+```
+
+или
+
+```
+$ cd lettre-client
+$ cargo build
+...Finished `dev` profile
+$ cd target/debug
+$ lettre-client.exe txt vasek.fedorov@yandex.ru "Very important" body.txt
+``` 
+
+##### Письмо txt
+
+```
+$ cargo run -- txt vasek.fedorov@yandex.ru "Very important" body.txt
+```
+
+<img width="1479" height="796" alt="image" src="https://github.com/user-attachments/assets/bc0ee8c2-390e-43c6-8685-c8b9f2ec27fe" />
+
+##### Письмо HTML
+
+Яндекс почему-то считает его более безопасным, чем предыдущее.
+
+```
+$ cargo run -- html vasek.fedorov@yandex.ru "Recovery code" body.html
+```
+
+<img width="1500" height="1106" alt="image" src="https://github.com/user-attachments/assets/7e8e4304-681e-4289-b5b0-a0834e8dc138" />
 
 ### 2. SMTP-клиент (3 балла)
 Разработайте простой почтовый клиент, который отправляет текстовые сообщения
