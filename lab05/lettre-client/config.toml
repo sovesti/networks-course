@@ -1,0 +1,4 @@
+smtp = "smtp.mail.ru"
+email = "st116410@student.spbu.ru"
+password = "PASSWORD"
+from = "Innocent mail client"
