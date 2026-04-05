@@ -60,7 +60,33 @@ $ cargo run -- html vasek.fedorov@yandex.ru "Recovery code" body.html
 Сделайте скриншоты полученных сообщений.
 
 #### Демонстрация работы
-todo
+
+Клиент лежит в ```custom-client```.
+
+Запуск:
+
+```
+$ cargo run -- vasek.fedorov@yandex.ru "Very important" ../lettre-client/body.txt
+<- 220 smtp.mail.ru ESMTP ready (Looking for Mail for your domain? Visit https://biz.mail.ru)
+-> EHLO spbu.ru
+<- 250-smtp.mail.ru
+...
+<- 250 AUTH PLAIN LOGIN XOAUTH2
+-> AUTH PLAIN AHN0MTE2NDEwQHN0dWRlbnQuc3BidS5ydQB*************
+<- 235 Authentication succeeded
+-> MAIL FROM:<st116410@student.spbu.ru>
+<- 250 OK
+-> RCPT TO:<vasek.fedorov@yandex.ru>
+<- 250 Accepted
+-> DATA
+<- 354 Enter message, ending with "." on a line by itself
+-> QUIT
+<- 250 OK id=1w9LhN-00000000Rep-3TX5
+```
+
+Результат:
+
+<img width="1257" height="664" alt="image" src="https://github.com/user-attachments/assets/4057882b-03ec-4c9f-9f33-3167c5b5fcf3" />
 
 ### 3. SMTP-клиент: бинарные данные (2 балла)
 Модифицируйте ваш SMTP-клиент из предыдущего задания так, чтобы теперь он мог
@@ -69,7 +95,17 @@ todo
 Сделайте скриншот, подтверждающий получение почтового сообщения с картинкой.
 
 #### Демонстрация работы
-todo
+
+Запуск:
+
+```
+$ cargo run -- vasek.fedorov@yandex.ru "KITTEN" body.txt image/png/kitten.png image/jpeg/kotenok.jpg
+... # идентично заданию 2
+```
+
+Результат:
+
+<img width="1252" height="746" alt="image" src="https://github.com/user-attachments/assets/d1380b2c-a237-4619-a977-fce0a258969e" />
 
 ---
 
@@ -89,7 +125,50 @@ Paint (на стороне сервера). Или запустить консо
 сервере) отправляется обратно клиенту.
 
 #### Демонстрация работы
-todo
+
+Сервер лежит в ```shell-server```, клиент - в ```shell-client```. Запуск сервера:
+
+```
+cd shell-server
+cargo run -- 3000
+```
+
+Запуск клиента:
+
+```
+cd shell-client
+cargo run -- localhost 3000
+```
+
+После этого через клиент можно в интерактивном режиме отправлять команды:
+
+```
+$ mkdir a
+exit code: 0
+$ ls
+a
+Cargo.lock
+Cargo.toml
+src
+target
+exit code: 0
+$ ping yandex.ru
+
+Pinging yandex.ru [77.88.44.55] with 32 bytes of data:
+Reply from 77.88.44.55: bytes=32 time=182ms TTL=57
+Reply from 77.88.44.55: bytes=32 time=266ms TTL=57
+Reply from 77.88.44.55: bytes=32 time=152ms TTL=57
+Reply from 77.88.44.55: bytes=32 time=315ms TTL=57
+
+Ping statistics for 77.88.44.55:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 152ms, Maximum = 315ms, Average = 228ms
+exit code: 0
+$ mkdir b/c
+mkdir: cannot create directory ‘b/c’: No such file or directory
+exit code: 1
+```
 
 ### В. Широковещательная рассылка через UDP (2 балла)
 Реализуйте сервер (веб-службу) и клиента с использованием интерфейса Socket API, которая:
