@@ -1,0 +1,5 @@
+smtp = "smtp.mail.ru"
+port = 465
+email = "st116410@student.spbu.ru"
+password = "PASSWORD"
+from = "Innocent mail client"
