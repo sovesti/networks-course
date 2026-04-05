@@ -125,7 +125,50 @@ Paint (на стороне сервера). Или запустить консо
 сервере) отправляется обратно клиенту.
 
 #### Демонстрация работы
-todo
+
+Сервер лежит в ```shell-server```, клиент - в ```shell-client```. Запуск сервера:
+
+```
+cd shell-server
+cargo run -- 3000
+```
+
+Запуск клиента:
+
+```
+cd shell-client
+cargo run -- localhost 3000
+```
+
+После этого через клиент можно в интерактивном режиме отправлять команды:
+
+```
+$ mkdir a
+exit code: 0
+$ ls
+a
+Cargo.lock
+Cargo.toml
+src
+target
+exit code: 0
+$ ping yandex.ru
+
+Pinging yandex.ru [77.88.44.55] with 32 bytes of data:
+Reply from 77.88.44.55: bytes=32 time=182ms TTL=57
+Reply from 77.88.44.55: bytes=32 time=266ms TTL=57
+Reply from 77.88.44.55: bytes=32 time=152ms TTL=57
+Reply from 77.88.44.55: bytes=32 time=315ms TTL=57
+
+Ping statistics for 77.88.44.55:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 152ms, Maximum = 315ms, Average = 228ms
+exit code: 0
+$ mkdir b/c
+mkdir: cannot create directory ‘b/c’: No such file or directory
+exit code: 1
+```
 
 ### В. Широковещательная рассылка через UDP (2 балла)
 Реализуйте сервер (веб-службу) и клиента с использованием интерфейса Socket API, которая:
