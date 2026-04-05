@@ -60,7 +60,33 @@ $ cargo run -- html vasek.fedorov@yandex.ru "Recovery code" body.html
 Сделайте скриншоты полученных сообщений.
 
 #### Демонстрация работы
-todo
+
+Клиент лежит в ```custom-client```.
+
+Запуск:
+
+```
+$ cargo run -- vasek.fedorov@yandex.ru "Very important" ../lettre-client/body.txt
+<- 220 smtp.mail.ru ESMTP ready (Looking for Mail for your domain? Visit https://biz.mail.ru)
+-> EHLO spbu.ru
+<- 250-smtp.mail.ru
+...
+<- 250 AUTH PLAIN LOGIN XOAUTH2
+-> AUTH PLAIN AHN0MTE2NDEwQHN0dWRlbnQuc3BidS5ydQB*************
+<- 235 Authentication succeeded
+-> MAIL FROM:<st116410@student.spbu.ru>
+<- 250 OK
+-> RCPT TO:<vasek.fedorov@yandex.ru>
+<- 250 Accepted
+-> DATA
+<- 354 Enter message, ending with "." on a line by itself
+-> QUIT
+<- 250 OK id=1w9LhN-00000000Rep-3TX5
+```
+
+Результат:
+
+<img width="1257" height="664" alt="image" src="https://github.com/user-attachments/assets/4057882b-03ec-4c9f-9f33-3167c5b5fcf3" />
 
 ### 3. SMTP-клиент: бинарные данные (2 балла)
 Модифицируйте ваш SMTP-клиент из предыдущего задания так, чтобы теперь он мог
@@ -69,7 +95,17 @@ todo
 Сделайте скриншот, подтверждающий получение почтового сообщения с картинкой.
 
 #### Демонстрация работы
-todo
+
+Запуск:
+
+```
+$ cargo run -- vasek.fedorov@yandex.ru "KITTEN" body.txt image/png/kitten.png image/jpeg/kotenok.jpg
+... # идентично заданию 2
+```
+
+Результат:
+
+<img width="1252" height="746" alt="image" src="https://github.com/user-attachments/assets/d1380b2c-a237-4619-a977-fce0a258969e" />
 
 ---
 
