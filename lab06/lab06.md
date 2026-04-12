@@ -39,7 +39,27 @@
 Приложите скриншоты.
 
 #### Скрины
-todo
+
+Изначальное состояние:
+
+<img width="2877" height="1677" alt="image" src="https://github.com/user-attachments/assets/b673a916-0836-4917-a54d-3c3d57026fbb" />
+
+На сервере:
+
+<img width="1568" height="1028" alt="image" src="https://github.com/user-attachments/assets/e44b0c8a-3a23-4734-98b2-9e4ce80d6680" />
+
+Создание папки на сервере с клиента:
+
+<img width="2879" height="1679" alt="image" src="https://github.com/user-attachments/assets/6f8267b1-df14-4c4f-aa23-223b82a5f871" />
+
+Передача файла:
+
+<img width="2879" height="1681" alt="image" src="https://github.com/user-attachments/assets/af88def2-8034-4b69-8665-ec3ae9abbd04" />
+
+Удаление файла:
+
+<img width="2879" height="1626" alt="image" src="https://github.com/user-attachments/assets/1d13fe5e-397a-40d1-bf82-94576deba25b" />
+
 
 ### FTP клиент (3 балла)
 Создайте консольное приложение FTP клиента для работы с файлами по FTP. Приложение может
