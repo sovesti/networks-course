@@ -6,6 +6,14 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0.102"
 clap = { version = "4.6.0", features = ["derive"] }
+dioxus = "0.7.5"
+dioxus-core = "0.7.4"
+dioxus-signals = "0.7.4"
+dioxus-web = "0.7.5"
 env_logger = "0.11.10"
 log = "0.4.29"
 suppaftp = "^8"
+
+[features]
+web = ["dioxus/web"]
+desktop = ["dioxus/desktop"]
