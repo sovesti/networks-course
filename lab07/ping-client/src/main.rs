@@ -8,6 +8,7 @@ use std::{
 };
 
 use anyhow::bail;
+use chrono::Local;
 
 use crate::stats::{Session, Stats};
 
@@ -27,9 +28,18 @@ fn message() -> String {
 
 const BUFFER_SIZE: usize = 32 * 1024;
 
-fn ping(addr: SocketAddr, socket: &mut UdpSocket, stats: &mut Stats) -> anyhow::Result<()> {
+fn ping(
+    attempt: usize,
+    addr: SocketAddr,
+    socket: &mut UdpSocket,
+    stats: &mut Stats,
+) -> anyhow::Result<()> {
     let mut buf = [0; BUFFER_SIZE];
     let start = Instant::now();
+    println!(
+        "=== Ping {attempt} {} ===",
+        Local::now().format("%H:%M:%S%.3f")
+    );
     println!("Sending: {}", message());
     socket.send_to(message().as_bytes(), addr)?;
     match socket.recv_from(&mut buf) {
@@ -53,11 +63,11 @@ fn main() -> anyhow::Result<()> {
     socket.set_read_timeout(Some(Duration::from_secs(1)))?;
     socket.connect(addr)?;
     let session = Session::new(addr, message().as_bytes().len());
-    println!("{session}");
+    // println!("{session}");
     let mut stats = Stats::new(session);
-    for _ in 0..10 {
-        ping(addr, &mut socket, &mut stats)?;
+    for attempt in 1..=10 {
+        ping(attempt, addr, &mut socket, &mut stats)?;
     }
-    println!("{stats}");
+    // println!("{stats}");
     Ok(())
 }
