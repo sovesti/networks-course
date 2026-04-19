@@ -6,22 +6,11 @@ use std::{
 
 pub struct Session {
     addr: SocketAddr,
-    bytes: usize,
 }
 
 impl Session {
-    pub fn new(addr: SocketAddr, bytes: usize) -> Self {
-        Self { addr, bytes }
-    }
-}
-
-impl Display for Session {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "Pinging {} with {} bytes of data:",
-            self.addr, self.bytes
-        )
+    pub fn new(addr: SocketAddr) -> Self {
+        Self { addr }
     }
 }
 
@@ -48,7 +37,6 @@ impl Display for Reply {
             "Reply from {}: bytes={} time={}ms",
             self.addr, self.bytes, self.time
         )
-        // write!(f, "RTT: {}ms", self.time)
     }
 }
 
@@ -80,9 +68,7 @@ impl Stats {
 
     pub fn received(&mut self, bytes: usize, addr: SocketAddr, time: Duration) {
         self.lost.push(Outcome::Received);
-        let reply = Reply::new(addr, bytes, time);
-        println!("{reply}");
-        self.replies.push(reply);
+        self.replies.push(Reply::new(addr, bytes, time));
     }
 
     fn sent_packets(&self) -> usize {
