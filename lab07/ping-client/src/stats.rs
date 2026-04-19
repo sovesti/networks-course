@@ -26,16 +26,14 @@ impl Display for Session {
 }
 
 struct Reply {
-    id: usize,
     addr: SocketAddr,
     bytes: usize,
     time: u128,
 }
 
 impl Reply {
-    fn new(id: usize, addr: SocketAddr, bytes: usize, time: Duration) -> Self {
+    fn new(addr: SocketAddr, bytes: usize, time: Duration) -> Self {
         Self {
-            id,
             addr,
             bytes,
             time: time.as_millis(),
@@ -45,12 +43,12 @@ impl Reply {
 
 impl Display for Reply {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        // write!(
-        //     f,
-        //     "Reply from {}: bytes={} time={}ms",
-        //     self.addr, self.bytes, self.time
-        // )
-        write!(f, "RTT: {}ms", self.time)
+        write!(
+            f,
+            "Reply from {}: bytes={} time={}ms",
+            self.addr, self.bytes, self.time
+        )
+        // write!(f, "RTT: {}ms", self.time)
     }
 }
 
@@ -82,7 +80,7 @@ impl Stats {
 
     pub fn received(&mut self, bytes: usize, addr: SocketAddr, time: Duration) {
         self.lost.push(Outcome::Received);
-        let reply = Reply::new(self.lost.len(), addr, bytes, time);
+        let reply = Reply::new(addr, bytes, time);
         println!("{reply}");
         self.replies.push(reply);
     }

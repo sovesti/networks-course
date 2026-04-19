@@ -36,11 +36,11 @@ fn ping(
 ) -> anyhow::Result<()> {
     let mut buf = [0; BUFFER_SIZE];
     let start = Instant::now();
-    println!(
-        "=== Ping {attempt} {} ===",
-        Local::now().format("%H:%M:%S%.3f")
-    );
-    println!("Sending: {}", message());
+    // println!(
+    //     "=== Ping {attempt} {} ===",
+    //     Local::now().format("%H:%M:%S%.3f")
+    // );
+    // println!("Sending: {}", message());
     socket.send_to(message().as_bytes(), addr)?;
     match socket.recv_from(&mut buf) {
         Ok((bytes, addr)) => received(stats, &buf[0..bytes], addr, start.elapsed()),
@@ -51,9 +51,9 @@ fn ping(
 }
 
 fn received(stats: &mut Stats, bytes: &[u8], addr: SocketAddr, time: Duration) {
-    str::from_utf8(bytes)
-        .iter()
-        .for_each(|msg| println!("Response: {msg}"));
+    // str::from_utf8(bytes)
+    //     .iter()
+    //     .for_each(|msg| println!("Response: {msg}"));
     stats.received(bytes.len(), addr, time);
 }
 
@@ -63,11 +63,11 @@ fn main() -> anyhow::Result<()> {
     socket.set_read_timeout(Some(Duration::from_secs(1)))?;
     socket.connect(addr)?;
     let session = Session::new(addr, message().as_bytes().len());
-    // println!("{session}");
+    println!("{session}");
     let mut stats = Stats::new(session);
     for attempt in 1..=10 {
         ping(attempt, addr, &mut socket, &mut stats)?;
     }
-    // println!("{stats}");
+    println!("{stats}");
     Ok(())
 }
