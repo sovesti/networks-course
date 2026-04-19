@@ -115,7 +115,39 @@ todo
 Сделайте скриншоты, подтверждающие корректную работу вашей программы пингования со стороны клиента.
 
 #### Демонстрация работы
-todo
+
+И сервер, и клиент написаны на Rust (2024 Edition). Чтобы их собирать, нужен [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html). 
+
+Это задание лежит в коммите ```1d6eca605f40fb3cfb9adbacd08608c1981c6634```.
+
+Чтобы видеть логи сервера уровня info, должна быть выставлена переменная среды ```RUST_LOG=INFO```. Запуск сервера:
+
+```
+$ cd ping-server
+$ cargo run -- <здесь можно указать порт>
+```
+
+или
+
+```
+$ cd ping-server
+$ cargo build
+...Finished `dev` profile
+$ cd target/debug
+$ ping-server.exe <здесь можно указать порт>
+```
+
+Клиент запускается аналогично. В качестве аргумента можно указать адрес сервера, например, ```127.0.0.1:3037```.
+
+Логи сервера:
+
+<img width="1388" height="431" alt="image" src="https://github.com/user-attachments/assets/f6457b8f-d50d-4d07-b01d-6b1ab3371b8e" />
+
+На сервере установлена искусственная задержка пакетов 100 мс. Теряется 20% пакетов.
+
+Вывод клиента:
+
+<img width="1073" height="1475" alt="image" src="https://github.com/user-attachments/assets/e8b28837-f530-47c6-a29e-ad43b4b4662e" />
 
 ### В. Вывод в формате ping (2 балла)
 Версия клиента из предыдущей части (Б) вычисляет время оборота для каждого пакета и выводит
@@ -127,7 +159,17 @@ todo
 процентах).
 
 #### Демонстрация работы
-todo
+
+Это задание лежит в коммите ```7a8de5093c3f19aed0ecbe318f594a8150a5a1ac```.
+
+Логи сервера:
+
+<img width="1406" height="437" alt="image" src="https://github.com/user-attachments/assets/bf52bccd-e43f-4a17-bfbb-5b8d7b469493" />
+
+Вывод клиента:
+
+<img width="1182" height="690" alt="image" src="https://github.com/user-attachments/assets/552e686e-33ac-4ff2-aabc-141edd62bd14" />
+
 
 ### Г. UDP Heartbeat (4 балла)
 UDP Heartbeat (монитор доступности) подобен программе пингования. Он может быть
