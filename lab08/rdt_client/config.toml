@@ -1,0 +1,6 @@
+port = 3043
+loss = 0.3
+timeout = 20
+server = 3042
+receive = "kotenok_server.jpg"
+send = "kitten_client.png"

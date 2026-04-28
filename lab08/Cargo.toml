@@ -1,0 +1,3 @@
+[workspace]
+resolver = "3"
+members = ["rdt_common", "rdt_server", "rdt_client"]
