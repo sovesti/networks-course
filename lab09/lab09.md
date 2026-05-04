@@ -124,7 +124,29 @@ IP-адрес и диапазон портов должны передавать
 <img src="images/copies.png" width=200 />
 
 #### Демонстрация работы
-todo
+
+Приложение реализовано на фреймворке Dioxus, для сборки понадобится консольное приложение ```dioxus-cli```, инструкцию по установке можно найти в документации фреймворка: https://dioxuslabs.com/learn/0.7/getting_started/. Тестировалось только под Windows. Конфигурируется через ```config.toml```. Запуск:
+
+```
+$ cd licensed
+$ dx serve --desktop
+```
+
+Запуск трёх приложений на разных портах:
+
+<img width="1252" height="717" alt="Screenshot 2026-05-04 212725" src="https://github.com/user-attachments/assets/24740c13-d84d-4cf7-992b-f96178f8c760" />
+
+Приложения обмениваются по UDP сообщениями трёх видов: ```Started```, ```Running``` и ```Stopped```. Логи одного из них:
+
+<img width="654" height="255" alt="Screenshot 2026-05-04 212852" src="https://github.com/user-attachments/assets/51ebfeb3-800a-491e-9848-3d2cd5f9f5d4" />
+
+После выключения одного из приложений:
+
+<img width="1152" height="660" alt="Screenshot 2026-05-04 212759" src="https://github.com/user-attachments/assets/b8e03c60-339c-4d7f-8821-0fc1b3a5f47d" />
+
+Логи выключенного приложения:
+
+<img width="656" height="288" alt="Screenshot 2026-05-04 212831" src="https://github.com/user-attachments/assets/03e262ef-6f3b-4c8f-bafe-6cdab6155e19" />
 
 ## Задачи. Работа протокола TCP
 
