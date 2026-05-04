@@ -16,5 +16,4 @@ tokio = { version = "1.52.1", features = ["net", "sync"] }
 toml = "1.1.2"
 
 [features]
-web = ["dioxus/web"]
 desktop = ["dioxus/desktop"]
