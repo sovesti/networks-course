@@ -1,10 +1,20 @@
-use std::io;
+use std::{io, net::SocketAddr};
 
 use getifaddrs::{Interface, getifaddrs};
 
 pub fn show_wireless_interfaces() -> io::Result<()> {
     wireless_interfaces()?.for_each(show_interface);
     Ok(())
+}
+
+pub fn my_address(port: u16) -> io::Result<SocketAddr> {
+    wireless_interfaces()?
+        .map(|interface| interface.address)
+        .max_by_key(|address| address.netmask())
+        .map(|address| address.ip_addr())
+        .flatten()
+        .map(|address| SocketAddr::new(address, port))
+        .ok_or_else(|| io::Error::other("No IPv4 address found"))
 }
 
 pub fn wireless_interfaces() -> io::Result<impl Iterator<Item = Interface>> {
