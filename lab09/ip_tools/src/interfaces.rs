@@ -1,20 +1,28 @@
-use std::{io, net::SocketAddr};
+use std::{io, net::IpAddr};
 
-use getifaddrs::{Interface, getifaddrs};
+use getifaddrs::{Address, Interface, getifaddrs};
 
 pub fn show_wireless_interfaces() -> io::Result<()> {
     wireless_interfaces()?.for_each(show_interface);
     Ok(())
 }
 
-pub fn my_address(port: u16) -> io::Result<SocketAddr> {
-    wireless_interfaces()?
-        .map(|interface| interface.address)
-        .max_by_key(|address| address.netmask())
-        .map(|address| address.ip_addr())
-        .flatten()
-        .map(|address| SocketAddr::new(address, port))
+pub fn my_subnet() -> io::Result<IpAddr> {
+    my_address()?
+        .and_then(|address| address.associated_address())
         .ok_or_else(|| io::Error::other("No IPv4 address found"))
+}
+
+pub fn my_ip() -> io::Result<IpAddr> {
+    my_address()?
+        .and_then(|address| address.ip_addr())
+        .ok_or_else(|| io::Error::other("No IPv4 address found"))
+}
+
+fn my_address() -> io::Result<Option<Address>> {
+    Ok(wireless_interfaces()?
+        .map(|interface| interface.address)
+        .max_by_key(|address| address.netmask()))
 }
 
 pub fn wireless_interfaces() -> io::Result<impl Iterator<Item = Interface>> {
