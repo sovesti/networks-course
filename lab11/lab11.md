@@ -21,7 +21,45 @@
 умолчанию утилита tracert использует три пакета).
 
 #### Демонстрация работы
-todo
+
+Приложение написано на Rust (2024 Edition). Чтобы его собирать, нужен [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html). 
+
+```
+$ cd trcrt
+$ cargo run -- <здесь нужно указать аргументы>
+```
+
+или
+
+```
+$ cd trcrt
+$ cargo build
+...Finished `dev` profile
+$ cd target/debug
+$ trcrt.exe <здесь нужно указать аргументы>
+```
+
+Возможные аргументы:
+
+```
+$ trcrt --help
+Usage: trcrt [OPTIONS] <TARGET>
+
+Arguments:
+  <TARGET>
+
+Options:
+  -h, --hops <HOPS>        Maximum number of hops to search for target [default: 30]
+  -w, --wait <WAIT>        Wait timeout milliseconds for each reply [default: 1000]
+  -r, --retries <RETRIES>  Number of retries for each host [default: 3]
+      --help               Display this message
+```
+
+Пример работы для какого-то сайта [www.chilevision.cl](https://www.chilevision.cl/), связанного с телевидением в Чили (у меня включен VPN с сервером в Нидерландах):
+
+<img width="912" height="357" alt="image" src="https://github.com/user-attachments/assets/531a52b5-71e7-445f-a439-a975ef5405a1" />
+
+Интересно, что хост 195.22.214.84 по данным [ipinfo.io](https://ipinfo.io/) находится в Германии, а 195.22.221.195 - сразу в Чили.
 
 ### Задание Б. Вывод имен промежуточных узлов (2 балла)
 В настоящее время приложение выводит только список IP-адресов всех маршрутизаторов на пути
