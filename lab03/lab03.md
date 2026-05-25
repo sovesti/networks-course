@@ -26,7 +26,49 @@
 ```
 
 #### Демонстрация работы
-todo
+
+Сервер написан на Rust (2024 Edition). Чтобы его собирать, нужен [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html). Запуск сервера:
+
+```
+$ cd files-server
+$ cargo run -- 3000 # после -- идут аргументы, передаваемые серверу
+```
+
+или
+
+```
+$ cd files-server
+$ cargo build
+...Finished `dev` profile
+$ cd target/debug
+$ file-server.exe 3000
+```
+
+Чтобы видеть логи уровня info, должна быть выставлена переменная среды ```RUST_LOG=INFO```.
+
+Файлы на сервере:
+
+```
+<root>
+├─ files/
+│  ├─ hello
+│  ├─ virus.exe
+│  ├─ big1.zip
+│  ├─ big2.zip
+├─ favicon.ico
+```
+
+Запрос текстового файла:
+
+<img width="774" height="337" alt="image" src="https://github.com/user-attachments/assets/621d58d7-5552-489e-866c-7e89f2b004c8" />
+
+Запрос бинарного файла:
+
+<img width="1708" height="733" alt="image" src="https://github.com/user-attachments/assets/14c43afd-68f6-4594-81f9-47315cc6dcec" />
+
+Файл не найден:
+
+<img width="2027" height="1119" alt="image" src="https://github.com/user-attachments/assets/1b91ae93-8bc7-4a89-8793-38e566435977" />
 
 ### Б. Многопоточный веб-сервер (2 балла)
 Реализуйте многопоточный сервер, который мог бы обслуживать несколько запросов
@@ -35,6 +77,12 @@ todo
 TCP-соединение от клиента он будет устанавливать это соединение через другой порт и
 обслуживать запрос клиента в отдельном потоке. Таким образом, для каждой пары запрос-ответ
 будет создаваться отдельное TCP-соединение в отдельном потоке.
+
+#### Демонстрация работы
+
+Запрос нескольких больших файлов (скорость работы сервера здесь искусственно уменьшена):
+
+<img width="2764" height="634" alt="image" src="https://github.com/user-attachments/assets/fab0e166-59a5-4307-bcb1-b86fffc4f29c" />
 
 ### В. Клиент (2 балла)
 Вместо использования браузера напишите собственный HTTP-клиент для тестирования вашего
@@ -50,7 +98,18 @@ TCP-соединение от клиента он будет устанавли�
 ```
 
 #### Демонстрация работы
-todo
+```
+$ cd files-server
+$ cargo run -- 3000
+<в другом терминале>
+$ cd files-client
+$ cargo build
+...Finished `dev` profile
+$ cd target/debug
+$ files-client.exe 127.0.0.1 3000 files/hello
+hello there
+
+```
 
 ### Г. Ограничение потоков сервера (3 балла)
 Пусть ресурсы вашего сервера ограничены и вы хотите контролировать максимальное количество
@@ -65,6 +124,21 @@ todo
 ```
 <server.exe> server_port concurrency_level
 ```
+
+#### Демонстрация работы
+
+Запуск сервера:
+
+```
+$ cd files-server
+$ cargo run -- 3000 2
+```
+
+Запросы сразу трёх больших файлов:
+
+<img width="2720" height="613" alt="image" src="https://github.com/user-attachments/assets/6916bffa-0e1f-4807-ab0e-8881ca654410" />
+
+(два скачиваются, третий завис)
 
 ## Задачи
 
