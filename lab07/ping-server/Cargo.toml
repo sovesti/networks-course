@@ -1,0 +1,13 @@
+[package]
+name = "ping-server"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.102"
+chrono = { version = "0.4.44", features = ["serde"] }
+env_logger = "0.11.10"
+log = "0.4.29"
+rand = "0.10.1"
+serde = { version = "1.0.228", features = ["derive"] }
+toml = "1.1.2"
