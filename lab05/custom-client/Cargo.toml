@@ -1,0 +1,13 @@
+[package]
+name = "custom-client"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.102"
+base64 = "0.22.1"
+rustls = { version = "0.23.37", features = ["std", "tls12", "ring"], default-features = false }
+serde = { version = "1.0.228", features = ["derive"] }
+toml = "1.1.2"
+uuid = { version = "1.23.0", features = ["v4"] }
+webpki-roots = "1.0.6"
