@@ -70,18 +70,37 @@ Traceroute отсылает первый пакет со значением TTL 
 
 ## Программирование.
 
+Задание выполнено на Rust (2024 Edition). Чтобы его собирать, нужен [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html).
+
 ### 1. IP-адрес и маска сети (1 балл)
 Напишите консольное приложение, которое выведет IP-адрес вашего компьютера и маску сети на консоль.
 
 #### Демонстрация работы
-todo
+
+```
+$ cd lab09
+$ cargo build
+...Finished `dev` profile
+$ target/debug/ip_tools.exe ip
+```
+
+У меня вывод такой:
+
+<img width="608" height="250" alt="image" src="https://github.com/user-attachments/assets/1e3eb912-87da-433a-9c97-4733f7b1a73d" />
+
+С помощью кросс-платформенного крейта (библиотеки) ```getifaddrs```, содержащего биндинги к https://man7.org/linux/man-pages/man3/getifaddrs.3.html, программа собирает информацию обо всех сетевых интерфейсах на устройстве. При этом берутся только беспроводные IPv4-интерфейсы.
+
+У меня их несколько, потому что запущены Hyper-V и WSL. В третьем задании из всех этих интерфейсов выбирается тот, у которого наибольшая маска.
 
 ### 2. Доступные порты (2 балла)
 Выведите все доступные (свободные) порты в указанном диапазоне для заданного IP-адреса. 
 IP-адрес и диапазон портов должны передаваться в виде входных параметров.
 
 #### Демонстрация работы
-todo
+
+<img width="693" height="322" alt="image" src="https://github.com/user-attachments/assets/0b490759-6223-430b-88cd-17e77ecd454c" />
+
+<img width="762" height="160" alt="image" src="https://github.com/user-attachments/assets/23acdbc8-3581-4b26-b9cf-adfb74903af1" />
 
 ### 3. Широковещательная рассылка для подсчета копий приложения (6 баллов)
 Разработать приложение, подсчитывающее количество копий себя, запущенных в локальной сети.
@@ -105,7 +124,29 @@ todo
 <img src="images/copies.png" width=200 />
 
 #### Демонстрация работы
-todo
+
+Приложение реализовано на фреймворке Dioxus, для сборки понадобится консольное приложение ```dioxus-cli```, инструкцию по установке можно найти в документации фреймворка: https://dioxuslabs.com/learn/0.7/getting_started/. Тестировалось только под Windows. Конфигурируется через ```config.toml```. Запуск:
+
+```
+$ cd licensed
+$ dx serve --desktop
+```
+
+Запуск трёх приложений на разных портах:
+
+<img width="1252" height="717" alt="Screenshot 2026-05-04 212725" src="https://github.com/user-attachments/assets/24740c13-d84d-4cf7-992b-f96178f8c760" />
+
+Приложения обмениваются по UDP сообщениями трёх видов: ```Started```, ```Running``` и ```Stopped```. Логи одного из них:
+
+<img width="654" height="255" alt="Screenshot 2026-05-04 212852" src="https://github.com/user-attachments/assets/51ebfeb3-800a-491e-9848-3d2cd5f9f5d4" />
+
+После выключения одного из приложений:
+
+<img width="1152" height="660" alt="Screenshot 2026-05-04 212759" src="https://github.com/user-attachments/assets/b8e03c60-339c-4d7f-8821-0fc1b3a5f47d" />
+
+Логи выключенного приложения:
+
+<img width="656" height="288" alt="Screenshot 2026-05-04 212831" src="https://github.com/user-attachments/assets/03e262ef-6f3b-4c8f-bafe-6cdab6155e19" />
 
 ## Задачи. Работа протокола TCP
 
