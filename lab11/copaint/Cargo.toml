@@ -1,0 +1,23 @@
+[package]
+name = "copaint"
+version = "0.1.0"
+authors = ["Vasily Fedorov <vasily.fedorov@arsysop.ru>"]
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.102"
+bytes = "1.11.1"
+dioxus = "0.7.5"
+dioxus-core = "0.7.4"
+dioxus-signals = "0.7.4"
+futures = "0.3.32"
+getifaddrs = "0.6.1"
+rkyv = "0.8.16"
+serde = { version = "1.0.228", features = ["derive"] }
+tokio = { version = "1.52.1", features = ["full"] }
+tokio-stream = { version = "0.1.18", features = ["sync"] }
+tokio-util = { version = "0.7.18", features = ["codec"] }
+toml = "1.1.2"
+
+[features]
+desktop = ["dioxus/desktop"]
