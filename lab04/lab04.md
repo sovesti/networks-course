@@ -32,7 +32,50 @@ _(*) Вы должны заменить стоящий здесь 8888 на но
 Приложите скрины или логи работы сервера.
 
 #### Демонстрация работы
-todo
+Сервер написан на Rust (2024 Edition). Чтобы его собирать, нужен [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html). Если есть проблемы на Windows со сборкой зависимостей в духе ```aws-...```, нужно выбрать MSVC toolchain, на нём должно работать: ```rustup default stable-msvc```.
+
+Чтобы видеть логи уровня info, должна быть выставлена переменная среды ```RUST_LOG=INFO```. Запуск сервера:
+
+```
+$ cd proxy
+$ cargo run
+```
+
+или
+
+```
+$ cd proxy
+$ cargo build
+...Finished `dev` profile
+$ cd target/debug
+$ proxy.exe
+```
+
+GET запрос:
+
+<img width="2729" height="1575" alt="image" src="https://github.com/user-attachments/assets/d933c1b9-e68c-487b-bd63-9ebcf94e8682" />
+
+Обработка ошибок:
+
+<img width="1029" height="360" alt="image" src="https://github.com/user-attachments/assets/29a69734-c284-4ab4-bcc3-8838b60dd49e" />
+
+Логи:
+
+```
+[2026-03-30T08:39:56Z INFO  proxy] Requested resource: https://unknownhost.blablabla/
+[2026-03-30T08:39:56Z INFO  proxy] Cache miss: https://unknownhost.blablabla/
+[2026-03-30T08:40:07Z ERROR proxy] error sending request for url (https://unknownhost.blablabla/)
+
+    Caused by:
+        0: client error (Connect)
+        1: dns error
+        2: No such host is known. (os error 11001)
+```
+
+POST запрос (здесь запущен сервер из lab02 и код прокси изменён так, чтобы он делал запрос по http, а не https):
+
+<img width="1848" height="1260" alt="image" src="https://github.com/user-attachments/assets/4fcdfc6f-8be6-49a2-b0e7-517662941282" />
+
 
 ### Б. Прокси-сервер с кешированием (4 балла)
 Когда прокси-сервер получает запрос, он проверяет, есть ли запрашиваемый объект в кэше, и,
@@ -52,7 +95,29 @@ todo
 Приложите скрины или логи, из которых понятно, что ответ на повторный запрос был взят из кэша.
 
 #### Демонстрация работы
-todo
+Запрос:
+
+<img width="1811" height="1450" alt="image" src="https://github.com/user-attachments/assets/d7c31bda-f3a4-4a61-8d7c-88c54b926ce0" />
+
+Он посылается дважды. Логи:
+
+```
+[2026-03-30T08:35:49Z INFO  proxy] Listening on http://0.0.0.0:3000
+[2026-03-30T08:35:54Z INFO  proxy] https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/308
+[2026-03-30T08:35:54Z INFO  proxy] Requested resource: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/308
+[2026-03-30T08:35:54Z INFO  proxy] Cache miss: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/308
+[2026-03-30T08:35:54Z INFO  proxy] Response: 200 OK
+[2026-03-30T08:36:05Z INFO  proxy] https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/308
+[2026-03-30T08:36:05Z INFO  proxy] Requested resource: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/308
+[2026-03-30T08:36:06Z INFO  proxy] Cache hit: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/308
+[2026-03-30T08:36:06Z INFO  proxy] Response: 200 OK
+```
+
+На диске:
+
+<img width="752" height="369" alt="image" src="https://github.com/user-attachments/assets/b3eb3eea-56fa-4ed2-b401-01ebe7233fcf" />
+
+(название файла - etag ресурса)
 
 ### В. Черный список (2 балла)
 Прокси-сервер отслеживает страницы и не пускает на те, которые попадают в черный список. Вместо
@@ -62,7 +127,17 @@ todo
 Приложите скрины или логи запроса из черного списка.
 
 #### Демонстрация работы
-todo
+
+Конфигурационный файл называется ```config.toml``` и лежит рядом с ```src```. Содержание:
+
+```
+blacklist = ["docs.rs"]
+```
+
+Попытка запросить заблокированный ресурс:
+
+<img width="1494" height="844" alt="image" src="https://github.com/user-attachments/assets/a581bd74-9b89-4a86-9712-5d2105d0cb09" />
+
 
 ## Wireshark. Работа с DNS
 Для каждого задания в этой секции приложите скрин с подтверждением ваших ответов.
