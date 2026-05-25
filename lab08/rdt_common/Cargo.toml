@@ -1,0 +1,13 @@
+[package]
+name = "rdt_common"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.102"
+byteorder = "1.5.0"
+env_logger = "0.11.10"
+futures-util = "0.3.32"
+log = "0.4.29"
+rand = "0.10.1"
+tokio = { version = "1.52.1", features = ["fs", "io-util", "macros", "net", "time"] }
