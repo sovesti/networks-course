@@ -118,7 +118,30 @@ Windows) или UDP-сегмент (в случае с Unix).
 **на разных континентах**.
 
 #### Демонстрация работы
-todo
+
+Приложение написано на Rust (2024 Edition). Чтобы их собирать, нужен [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html). 
+
+```
+$ cd ping-client
+$ cargo run -- <здесь нужно указать адрес>
+```
+
+или
+
+```
+$ cd ping-client
+$ cargo build
+...Finished `dev` profile
+$ cd target/debug
+$ ping-client.exe <здесь нужно указать адрес>
+```
+
+Ниже приложение запускается с включённым VPN. Пингуются:
+
+- Amazon Basin Project: https://aguasamazonicas.otca.org, сервер расположен в Бразилии 
+- Правительство ЮАР: https://www.gov.za, сервер расположен в ЮАР
+
+<img width="945" height="442" alt="image" src="https://github.com/user-attachments/assets/30f0d51b-0882-4aff-ad20-74aed2b69770" />
 
 ### Задание Б (1 балл)
 Организуйте вывод на консоль так, как это сделано в стандартной утилите ping: нужно вывести
@@ -126,7 +149,8 @@ todo
 Дополнительно вычислите коэффициент потери пакетов (в процентах).
 
 #### Демонстрация работы
-todo
+
+См. задание А
 
 ### Задание В (1 балл)
 Ваша программа обрабатывает только тайм-ауты в получении ICMP-ответов. Добавьте к ней
@@ -137,7 +161,10 @@ todo
 Приложите скриншот вывода одной из ошибок.
 
 #### Демонстрация работы
-todo
+
+Если с включённым VPN попытаться пингануть 192.168.0.1, выдают "Network unreachable":
+
+<img width="746" height="183" alt="image" src="https://github.com/user-attachments/assets/410eea98-316a-4e93-add3-7fae2fc98b3f" />
 
 ### Справочная информация о протоколе ICMP
 
