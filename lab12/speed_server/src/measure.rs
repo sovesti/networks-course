@@ -32,6 +32,10 @@ impl MeasureConfig {
     fn millis_elapsed(&self) -> anyhow::Result<usize> {
         Ok(SystemTime::now().duration_since(self.start)?.as_millis() as usize)
     }
+
+    fn size() -> usize {
+        size_of::<u128>() + 2 * size_of::<usize>()
+    }
 }
 
 fn start(cursor: &mut impl Read) -> anyhow::Result<SystemTime> {
@@ -97,8 +101,8 @@ impl MeasureTraffic {
     }
 
     pub async fn measure_udp(&mut self, addr: SocketAddr) -> anyhow::Result<()> {
-        let mut udp = UdpSocket::bind(addr).await?;
         self.state.reset();
+        let mut udp = UdpSocket::bind(addr).await?;
         let config = self.parse_config_udp(&mut udp).await?;
         self.state.total.set(config.repeats);
         loop {
@@ -110,8 +114,8 @@ impl MeasureTraffic {
     }
 
     pub async fn measure_tcp(&mut self, addr: SocketAddr) -> anyhow::Result<()> {
-        let mut tcp = accept_tcp(addr).await?;
         self.state.reset();
+        let mut tcp = accept_tcp(addr).await?;
         let config = self.parse_config_tcp(&mut tcp).await?;
         self.state.total.set(config.repeats * config.size);
         while let bytes = tcp.read(&mut self.buffer).await?
@@ -137,10 +141,11 @@ impl MeasureTraffic {
     }
 
     async fn parse_config_tcp(&mut self, tcp: &mut TcpStream) -> anyhow::Result<MeasureConfig> {
-        let mut config = vec![0; size_of::<MeasureConfig>()];
+        let mut config = vec![0; MeasureConfig::size()];
         tcp.read_exact(&mut config).await?;
-        let config = MeasureConfig::parse(&config)?;
-        self.state.received(&config, size_of::<MeasureConfig>())?;
+        let parse = MeasureConfig::parse(&config);
+        let config = parse?;
+        self.state.received(&config, MeasureConfig::size())?;
         Ok(config)
     }
 }

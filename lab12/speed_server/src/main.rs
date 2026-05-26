@@ -123,7 +123,14 @@ fn app() -> Element {
                         }
                     }
                 }
-                ErrorView { error }
+                if let Some(Err(accepting)) = accept.value() {
+                    div {
+                        class: "min-h-20 m-1 overflow-auto text-red-800",
+                        {accepting.to_string()}
+                    }
+                } else {
+                    ErrorView { error }
+                }
             }
         }
     }
