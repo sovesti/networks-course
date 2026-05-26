@@ -9,8 +9,13 @@
     monospace;
     --color-red-800: oklch(44.4% 0.177 26.899);
     --color-zinc-50: oklch(98.5% 0 0);
+    --color-zinc-200: oklch(92% 0.004 286.32);
+    --color-zinc-300: oklch(87.1% 0.006 286.286);
     --spacing: 0.25rem;
+    --text-xl: 1.25rem;
+    --text-xl--line-height: calc(1.75 / 1.25);
     --radius-xs: 0.125rem;
+    --radius-md: 0.375rem;
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
   }
@@ -173,17 +178,14 @@
   .h-dvh {
     height: 100dvh;
   }
-  .h-full {
-    height: 100%;
-  }
   .min-h-20 {
     min-height: calc(var(--spacing) * 20);
   }
-  .max-w-48 {
-    max-width: calc(var(--spacing) * 48);
+  .w-48 {
+    width: calc(var(--spacing) * 48);
   }
-  .max-w-100 {
-    max-width: calc(var(--spacing) * 100);
+  .max-w-150 {
+    max-width: calc(var(--spacing) * 150);
   }
   .flex-col {
     flex-direction: column;
@@ -191,20 +193,23 @@
   .flex-row {
     flex-direction: row;
   }
-  .items-center {
-    align-items: center;
-  }
-  .justify-start {
-    justify-content: flex-start;
+  .justify-between {
+    justify-content: space-between;
   }
   .overflow-auto {
     overflow: auto;
+  }
+  .rounded-md {
+    border-radius: var(--radius-md);
   }
   .rounded-xs {
     border-radius: var(--radius-xs);
   }
   .bg-zinc-50 {
     background-color: var(--color-zinc-50);
+  }
+  .p-1 {
+    padding: calc(var(--spacing) * 1);
   }
   .pr-1 {
     padding-right: calc(var(--spacing) * 1);
@@ -215,12 +220,34 @@
   .font-mono {
     font-family: var(--font-mono);
   }
+  .text-xl {
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+  }
   .text-red-800 {
     color: var(--color-red-800);
   }
   .outline-1 {
     outline-style: var(--tw-outline-style);
     outline-width: 1px;
+  }
+  .hover\:bg-zinc-200 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-zinc-200);
+      }
+    }
+  }
+  .disabled\:bg-zinc-300 {
+    &:disabled {
+      background-color: var(--color-zinc-300);
+    }
+  }
+  .disabled\:outline-1 {
+    &:disabled {
+      outline-style: var(--tw-outline-style);
+      outline-width: 1px;
+    }
   }
 }
 @property --tw-outline-style {

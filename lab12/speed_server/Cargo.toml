@@ -6,12 +6,11 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.102"
+byteorder = "1.5.0"
 dioxus = "0.7.5"
 dioxus-core = "0.7.4"
 dioxus-signals = "0.7.4"
-serde = { version = "1.0.228", features = ["derive"] }
 tokio = { version = "1.52.1", features = ["full"] }
-toml = "1.1.2"
 
 [features]
 desktop = ["dioxus/desktop"]

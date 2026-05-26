@@ -1,34 +1,17 @@
 mod error;
 mod random;
-mod subnet;
 
 use std::{
-    collections::HashMap,
-    fmt::Debug,
     fs::File,
     io::Read,
-    net::{IpAddr, Ipv4Addr, SocketAddr},
-    str::FromStr,
-    time::Duration,
+    net::{SocketAddr, ToSocketAddrs},
 };
 
-use dioxus::{
-    logger::tracing::{self, Level},
-    prelude::*,
-};
+use anyhow::anyhow;
+use dioxus::{logger::tracing::{self, Level}, prelude::*};
 use serde::Deserialize;
-use tokio::time::{Instant, sleep_until};
 
-use crate::subnet::{KnownCopies, Message, Subnet};
-
-fn success() -> &'static str {
-    "OK"
-}
-
-fn display_error(err: &anyhow::Error) -> String {
-    tracing::error!("{err:?}");
-    format!("An error occured: {err}")
-}
+use crate::{error::ErrorView, random::RandomTraffic};
 
 #[derive(Deserialize, Clone, Copy)]
 struct Config {
@@ -48,10 +31,14 @@ impl Config {
 
 #[component]
 fn TextField(label: String, initial: String, value: Signal<String>) -> Element {
+    value.set(initial.clone());
     rsx! {
         div {
-            class: "flex flex-row justify-end",
-            {label},
+            class: "flex flex-row justify-between",
+            p {
+                class: "p-1",
+                {label},
+            }
             input {
                 class: "outline-1 pl-1 pr-1 m-1 w-48 rounded-xs",
                 oninput: move |event| value.set(event.value()),
@@ -61,53 +48,81 @@ fn TextField(label: String, initial: String, value: Signal<String>) -> Element {
     }
 }
 
+fn parse_target(port: Signal<String>, target: Signal<String>) -> anyhow::Result<SocketAddr> {
+    let port = port().parse()?;
+    (target().to_string(), port)
+        .to_socket_addrs()?
+        .next()
+        .ok_or_else(|| anyhow!("couldn't resolve {}:{}", target(), port))
+}
+
+fn empty_string() -> Signal<String> {
+    use_signal(|| "".to_string())
+}
+
+async fn send_random(
+    config: Signal<Config>,
+    tcp: Signal<bool>,
+    target: anyhow::Result<SocketAddr>,
+    volume: anyhow::Result<usize>,
+) -> anyhow::Result<()> {
+    let mut traffic = RandomTraffic::new(32 * 1024);
+    tracing::debug!("{volume:?}");
+    if tcp() {
+        traffic.send_tcp(target?, volume?).await
+    } else {
+        traffic.send_udp(config.read().port, target?, volume?).await
+    }
+}
+
 fn app() -> Element {
-    let tcp = use_signal(|| false);
-    let mut config = use_signal(Config::parse);
-    let remotes = use_signal(HashMap::new);
-    let mut target = use_signal(|| "".to_string());
-    let mut port = use_signal(|| "".to_string());
-    let mut volume = use_signal(|| "".to_string());
+    let mut tcp = use_signal(|| false);
+    let config = use_signal(Config::parse);
+    let target: Signal<String> = empty_string();
+    let port: Signal<String> = empty_string();
+    let volume: Signal<String> = empty_string();
+    let mut send = use_action(move || {
+        send_random(
+            config,
+            tcp,
+            parse_target(port, target),
+            volume().parse().map_err(anyhow::Error::from),
+        )
+    });
     let error = use_signal(|| None);
     rsx! {
         Stylesheet { href: asset!("/assets/tailwind.css") }
         div {
             class: "font-mono bg-zinc-50",
             main {
-                class: "flex flex-col max-w-100 h-dvh",
+                class: "flex flex-col max-w-150 h-dvh",
                 div {
                     class: "flex flex-row",
                     button {
                         class: format!("p-1 m-1 rounded-md hover:bg-zinc-200 disabled:bg-zinc-300 disabled:outline-1"),
-                        disabled: *tcp.read(),
+                        disabled: tcp(),
                         onclick: move |_| tcp.toggle(),
                         "TCP"
                     }
                     button {
                         class: "p-1 m-1 rounded-md hover:bg-zinc-200 disabled:bg-zinc-300 disabled:outline-1",
-                        disabled: !*tcp.read(),
+                        disabled: !tcp(),
                         onclick: move |_| tcp.toggle(),
                         "UDP"
                     }
                 }
-                if *tcp.read() {
-                    p {
-                        class: "pl-1 pr-1 m-1 w-48 rounded-xs",
-                        "Ожидание, адрес: {me}"
-                    }
-                } else {
-                    TextField { "Введите адрес получателя", "127.0.0.1", target }
-                    TextField { "Введите порт получателя", "8001", port }
-                    TextField { "Введите количество пакетов для отправки", "127.0.0.1", volume }
-                    div {
-                        class: "m-1 w-48 rounded-xs text-xl",
-                        button {
-                            class: "hover:bg-zinc-200",
-                            disabled: *connected.read(),
-                            onclick: move |_| connect(read, write, error, connected, target),
-                            p {
-                                "Отправить"
-                            }
+                TextField { label: "Введите адрес получателя", initial: "127.0.0.1", value: target }
+                TextField { label: "Введите порт получателя", initial: "8001", value: port }
+                TextField { label: "Введите количество пакетов для отправки", initial: "5", value: volume }
+                div {
+                    class: "m-1 w-48 rounded-xs text-xl",
+                    button {
+                        class: "hover:bg-zinc-200",
+                        disabled: send.pending(),
+                        onclick: move |_| send.call(),
+                        p {
+                            class: "p-1",
+                            "Отправить"
                         }
                     }
                 }
